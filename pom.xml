@@ -32,10 +32,10 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>webfx-demos-chess-application</module>
-        <module>webfx-demos-chess-application-gluon</module>
-        <module>webfx-demos-chess-application-gwt</module>
-        <module>webfx-demos-chess-application-openjfx</module>
+        <module>webfx-demo-chess-application</module>
+        <module>webfx-demo-chess-application-gluon</module>
+        <module>webfx-demo-chess-application-gwt</module>
+        <module>webfx-demo-chess-application-openjfx</module>
     </modules>
 
 </project>
