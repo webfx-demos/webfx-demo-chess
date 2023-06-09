@@ -32,7 +32,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        app: [{name: 'Chess', module-token: 'webfx-demo-chess', gwt-token: 'webfx_demo_chess', gluon-token: 'WebFXDemochess', web-push-branch: 'chess', android-package-name: 'dev.webfx.demo.chess', android-track: 'beta', ios-bundle-id: 'dev.webfx.demo.chess', version: '0.1.0-SNAPSHOT'}]
+        app: [{name: 'Chess', module-token: 'webfx-demo-chess', gwt-token: 'webfx_demo_chess', gluon-token: 'WebFXDemoChess', web-push-branch: 'chess', android-package-name: 'dev.webfx.demo.chess', android-track: 'beta', ios-bundle-id: 'dev.webfx.demo.chess', version: '0.1.0-SNAPSHOT'}]
         os-config:  [1, 2, 3, 4]
         include:
           - os-config: 1 # Generates builds 1) 2) 3) 4) & 5)
