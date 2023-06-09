@@ -88,6 +88,8 @@
     <public includes="images/" path=""/>
     <resource path="sounds"/>
     <public includes="sounds/" path=""/>
+    <!--=============================< webfx-extras-scalepane >=============================-->
+    <source path="dev/webfx/extras/scalepane"/>
     <!--=================================< webfx-kit-gwt >==================================-->
     <source path="dev/webfx/kit/launcher/spi/impl/gwt"/>
     <source path="dev/webfx/kit/mapper/spi/impl/gwt"/>

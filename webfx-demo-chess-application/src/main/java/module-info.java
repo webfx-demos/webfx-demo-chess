@@ -8,6 +8,7 @@ module webfx.demo.chess.application {
     requires javafx.controls;
     requires javafx.graphics;
     requires javafx.media;
+    requires webfx.extras.scalepane;
     requires webfx.platform.console;
     requires webfx.platform.resource;
 

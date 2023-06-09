@@ -1,5 +1,6 @@
 package com.orangomango.chess;
 
+import dev.webfx.extras.scalepane.ScalePane;
 import dev.webfx.platform.resource.Resource;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -91,10 +92,11 @@ public class MainApplication extends Application{
 		loadSounds();
 
 		stage.setTitle("Chess");
-		StackPane pane = new StackPane();
+		//StackPane pane = new StackPane();
 		Canvas canvas = new Canvas(WIDTH, HEIGHT);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		pane.getChildren().add(canvas);
+		//pane.getChildren().add(canvas);
+		ScalePane pane = new ScalePane(canvas);
 		this.board = new Board(STARTPOS, 180000, 0);
 		this.engine = new Engine();
 		
