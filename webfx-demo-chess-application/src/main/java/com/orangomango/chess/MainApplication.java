@@ -1,31 +1,41 @@
 package com.orangomango.chess;
 
+import com.orangomango.chess.multiplayer.Client;
+import com.orangomango.chess.multiplayer.Server;
 import dev.webfx.extras.scalepane.ScalePane;
 import dev.webfx.platform.resource.Resource;
+import dev.webfx.stack.ui.controls.dialog.DialogCallback;
+import dev.webfx.stack.ui.controls.dialog.DialogUtil;
+import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.scene.canvas.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Clipboard;
-import javafx.scene.paint.Color;
-import javafx.scene.image.Image;
-import javafx.scene.layout.*;
-import javafx.animation.*;
-import javafx.geometry.Point2D;
 import javafx.geometry.Insets;
-import javafx.util.Duration;
-import javafx.scene.media.*;
+import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
-import java.io.*;
-import java.util.*;
-
-import com.orangomango.chess.multiplayer.Server;
-import com.orangomango.chess.multiplayer.Client;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MainApplication extends Application{
 	public static final int SQUARE_SIZE = 55;
@@ -69,6 +79,8 @@ public class MainApplication extends Application{
 			this.prom = prom;
 		}
 	}
+
+	private ScalePane pane;
 	
 	@Override
 	public void start(Stage stage){
@@ -96,7 +108,7 @@ public class MainApplication extends Application{
 		Canvas canvas = new Canvas(WIDTH, HEIGHT);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		//pane.getChildren().add(canvas);
-		ScalePane pane = new ScalePane(canvas);
+		pane = new ScalePane(canvas);
 		this.board = new Board(STARTPOS, 180000, 0);
 		this.engine = new Engine();
 		
@@ -144,10 +156,25 @@ public class MainApplication extends Application{
 				} else if (e.getClickCount() == 2){
 					System.out.println(this.board.getFEN());
 					System.out.println(this.board.getPGN());
-					Alert alert = new Alert(Alert.AlertType.INFORMATION);
-					alert.setTitle("Settings");
-					alert.setHeaderText("Setup game");
 					GridPane layout = new GridPane();
+					BorderPane borderPane = new BorderPane(layout);
+					Text headerText = new Text("Setup game");
+					BorderPane.setAlignment(headerText, Pos.CENTER);
+					borderPane.setTop(headerText);
+					Button okButton = new Button("Ok");
+					BorderPane.setAlignment(okButton, Pos.CENTER_RIGHT);
+					BorderPane.setMargin(okButton, new Insets(10));
+					borderPane.setBottom(okButton);
+					borderPane.setBorder(new Border(new BorderStroke(Color.grayRgb(64), BorderStrokeStyle.SOLID, new CornerRadii(10), BorderStroke.THICK)));
+					borderPane.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(15), null)));
+
+					DialogCallback dialogCallback = DialogUtil.showModalNodeInGoldLayout(borderPane, pane);
+					okButton.setOnAction(ev -> dialogCallback.closeDialog());
+
+					//Alert alert = new Alert(Alert.AlertType.INFORMATION);
+					//DialogContent alert = new DialogContent();
+					//alert.setTitle("Settings");
+					//alert.setHeaderText("Setup game");
 					layout.setPadding(new Insets(10, 10, 10, 10));
 					layout.setHgap(5);
 					layout.setVgap(5);
@@ -176,15 +203,18 @@ public class MainApplication extends Application{
 							String ip = sip.getText().equals("") ? "192.168.1.247" : sip.getText();
 							int port = sport.getText().equals("") ? 1234 : Integer.parseInt(sport.getText());
 							Server server = new Server(ip, port);
-							alert.close();
+							//alert.close();
+							dialogCallback.closeDialog();
 						} catch (NumberFormatException ex){
 							Logger.writeError(ex.getMessage());
 						}
 					});
 					TextArea data = new TextArea(this.board.getFEN()+"\n\n"+this.board.getPGN());
+					data.setPrefHeight(200);
 					Button connect = new Button("Connect");
-					/*connect.setOnAction(ev -> {
-						try {
+					connect.setOnAction(ev -> {
+						dialogCallback.closeDialog();
+						/*try {
 							String ip = cip.getText().equals("") ? "192.168.1.247" : cip.getText();
 							int port = cport.getText().equals("") ? 1234 : Integer.parseInt(cport.getText());
 							this.client = new Client(ip, port, this.viewPoint);
@@ -223,8 +253,8 @@ public class MainApplication extends Application{
 							alert.close();
 						} catch (NumberFormatException ex){
 							Logger.writeError(ex.getMessage());
-						}
-					});*/
+						}*/
+					});
 					CheckBox otb = new CheckBox("Over the board");
 					CheckBox eng = new CheckBox("Play against stockfish");
 					eng.setSelected(this.engineMove);
@@ -268,8 +298,9 @@ public class MainApplication extends Application{
 						cb.setContent(cc);
 					});
 					startEngine.setDisable((this.board.getMovesN() > 1 && !this.gameFinished) || !this.engine.isRunning());
-/*
 					startEngine.setOnAction(ev -> {
+						dialogCallback.closeDialog();
+						/*
 						this.overTheBoard = true;
 						Thread eg = new Thread(() -> {
 							try {
@@ -282,15 +313,16 @@ public class MainApplication extends Application{
 						eg.setDaemon(true);
 						eg.start();
 						alert.close();
+						 */
 					});
-*/
 					reset.setOnAction(ev -> {
 						try {
 							String text = data.getText();
 							long time = timeControl.getText().equals("") ? 180000l : Long.parseLong(timeControl.getText().split("\\+")[0])*1000;
 							int inc = timeControl.getText().equals("") ? 0 : Integer.parseInt(timeControl.getText().split("\\+")[1]);
 							reset(text, time, inc);
-							alert.close();
+							//alert.close();
+							dialogCallback.closeDialog();
 						} catch (Exception ex){
 							Logger.writeError(ex.getMessage());
 						}
@@ -315,8 +347,8 @@ public class MainApplication extends Application{
 					layout.add(rs, 0, 6);
 					layout.add(copy, 0, 7);
 					layout.add(data, 0, 8);
-					alert.getDialogPane().setContent(layout);
-					alert.showAndWait();
+					//alert.getDialogPane().setContent(layout);
+					//alert.show();
 				}
 			} else if (e.getButton() == MouseButton.SECONDARY){
 				String h = getNotation(e);

@@ -11,6 +11,7 @@ module webfx.demo.chess.application {
     requires webfx.extras.scalepane;
     requires webfx.platform.console;
     requires webfx.platform.resource;
+    requires webfx.stack.ui.controls;
 
     // Exported packages
     exports com.orangomango.chess;
