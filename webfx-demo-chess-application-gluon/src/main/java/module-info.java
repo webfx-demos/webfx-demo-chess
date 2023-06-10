@@ -8,6 +8,8 @@ module webfx.demo.chess.application.gluon {
     requires webfx.kit.openjfx;
     requires webfx.platform.boot.java;
     requires webfx.platform.console.java;
+    requires webfx.platform.fetch.java;
+    requires webfx.platform.file.java;
     requires webfx.platform.json.java;
     requires webfx.platform.resource.gluon;
     requires webfx.platform.scheduler.java;

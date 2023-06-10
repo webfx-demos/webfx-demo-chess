@@ -3,6 +3,10 @@ package com.orangomango.chess;
 import com.orangomango.chess.multiplayer.Client;
 import com.orangomango.chess.multiplayer.Server;
 import dev.webfx.extras.scalepane.ScalePane;
+import dev.webfx.platform.console.Console;
+import dev.webfx.platform.fetch.Fetch;
+import dev.webfx.platform.json.JsonArray;
+import dev.webfx.platform.json.JsonObject;
 import dev.webfx.platform.resource.Resource;
 import dev.webfx.stack.ui.controls.dialog.DialogCallback;
 import dev.webfx.stack.ui.controls.dialog.DialogUtil;
@@ -199,15 +203,36 @@ public class MainApplication extends Application{
 					b.setOnAction(ev -> this.viewPoint = Color.BLACK);
 					Button startServer = new Button("Start server");
 					startServer.setOnAction(ev -> {
+						String url = "https://lichess.org/api/player";
+						Fetch.fetch(url) // Expecting a JSON object or array
+								.onFailure(error -> Console.log("Failed to fetch" + url + ", error: " + error))
+								.onSuccess(response -> {
+									Console.log("Successfully fetched " + url + " - Now parsing Json response");
+									response.json()
+											.onFailure(error -> Console.log("Failed to parse Json, error: " + error))
+											.onSuccess(json -> {
+												if (json.isObject()) {
+													JsonObject jsonObject = json.asJsonObject();
+													Console.log("Successfully parsed Json object:");
+													Console.logNative(jsonObject); // Will display a browsable JSON object in the browser console
+												} else if (json.isArray()) {
+													JsonArray jsonArray = json.asJsonArray();
+													Console.log("Successfully parsed Json array:");
+													Console.logNative(jsonArray); // Will display a browsable JSON array in the browser console
+												}
+											});
+								});
+						/*
 						try {
 							String ip = sip.getText().equals("") ? "192.168.1.247" : sip.getText();
 							int port = sport.getText().equals("") ? 1234 : Integer.parseInt(sport.getText());
 							Server server = new Server(ip, port);
-							//alert.close();
-							dialogCallback.closeDialog();
+							alert.close();
 						} catch (NumberFormatException ex){
 							Logger.writeError(ex.getMessage());
 						}
+*/
+						dialogCallback.closeDialog();
 					});
 					TextArea data = new TextArea(this.board.getFEN()+"\n\n"+this.board.getPGN());
 					data.setPrefHeight(200);
