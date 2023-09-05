@@ -4,12 +4,12 @@ import com.orangomango.chess.multiplayer.Client;
 import com.orangomango.chess.multiplayer.Server;
 import dev.webfx.extras.scalepane.ScalePane;
 import dev.webfx.platform.console.Console;
-import dev.webfx.platform.fetch.Fetch;
-import dev.webfx.platform.json.JsonArray;
-import dev.webfx.platform.json.JsonObject;
+import dev.webfx.platform.fetch.json.JsonFetch;
 import dev.webfx.platform.resource.Resource;
-import dev.webfx.stack.ui.controls.dialog.DialogCallback;
-import dev.webfx.stack.ui.controls.dialog.DialogUtil;
+import dev.webfx.platform.ast.ReadOnlyAstArray;
+import dev.webfx.platform.ast.ReadOnlyAstObject;
+import dev.webfx.stack.ui.dialog.DialogCallback;
+import dev.webfx.stack.ui.dialog.DialogUtil;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
@@ -204,23 +204,18 @@ public class MainApplication extends Application{
 					Button startServer = new Button("Start server");
 					startServer.setOnAction(ev -> {
 						String url = "https://lichess.org/api/player";
-						Fetch.fetch(url) // Expecting a JSON object or array
+						JsonFetch.fetchJsonNode(url) // Expecting a JSON object or array
 								.onFailure(error -> Console.log("Failed to fetch" + url + ", error: " + error))
-								.onSuccess(response -> {
-									Console.log("Successfully fetched " + url + " - Now parsing Json response");
-									response.json()
-											.onFailure(error -> Console.log("Failed to parse Json, error: " + error))
-											.onSuccess(json -> {
-												if (json.isObject()) {
-													JsonObject jsonObject = json.asJsonObject();
-													Console.log("Successfully parsed Json object:");
-													Console.logNative(jsonObject); // Will display a browsable JSON object in the browser console
-												} else if (json.isArray()) {
-													JsonArray jsonArray = json.asJsonArray();
-													Console.log("Successfully parsed Json array:");
-													Console.logNative(jsonArray); // Will display a browsable JSON array in the browser console
-												}
-											});
+								.onSuccess(json -> {
+									if (json.isObject()) {
+										ReadOnlyAstObject jsonObject = (ReadOnlyAstObject) json; // json.asJsonObject();
+										Console.log("Successfully parsed Json object:");
+										Console.logNative(jsonObject); // Will display a browsable JSON object in the browser console
+									} else if (json.isArray()) {
+										ReadOnlyAstArray jsonArray = (ReadOnlyAstArray) json; // json.asJsonArray();
+										Console.log("Successfully parsed Json array:");
+										Console.logNative(jsonArray); // Will display a browsable JSON array in the browser console
+									}
 								});
 						/*
 						try {

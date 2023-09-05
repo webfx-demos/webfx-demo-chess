@@ -9,10 +9,11 @@ module webfx.demo.chess.application {
     requires javafx.graphics;
     requires javafx.media;
     requires webfx.extras.scalepane;
+    requires webfx.platform.ast;
     requires webfx.platform.console;
-    requires webfx.platform.fetch;
+    requires webfx.platform.fetch.ast.json;
     requires webfx.platform.resource;
-    requires webfx.stack.ui.controls;
+    requires webfx.stack.ui.dialog;
 
     // Exported packages
     exports com.orangomango.chess;

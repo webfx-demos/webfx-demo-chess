@@ -14,7 +14,7 @@
     <required-libraries>
         <webfx-library artifact="dev.webfx:webfx:0.1.0-SNAPSHOT"/>
         <webfx-library artifact="dev.webfx:webfx-extras:0.1.0-SNAPSHOT"/> <!-- for ScalePane -->
-        <webfx-library artifact="dev.webfx:webfx-stack-private:0.1.0-SNAPSHOT"/> <!-- for DialogUtil -->
+        <webfx-library artifact="dev.webfx:webfx-stack:0.1.0-SNAPSHOT"/> <!-- for DialogUtil -->
     </required-libraries>
 
 </project>
