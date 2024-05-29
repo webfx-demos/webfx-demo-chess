@@ -3,10 +3,8 @@ package com.orangomango.chess;
 import javafx.scene.paint.Color;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.text.SimpleDateFormat;
 import java.util.stream.Collectors;
 
 public class Board{

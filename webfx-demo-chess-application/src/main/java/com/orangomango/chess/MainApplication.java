@@ -2,7 +2,7 @@ package com.orangomango.chess;
 
 import com.orangomango.chess.multiplayer.Client;
 import com.orangomango.chess.multiplayer.Server;
-import dev.webfx.extras.scalepane.ScalePane;
+import dev.webfx.extras.panes.ScalePane;
 import dev.webfx.platform.console.Console;
 import dev.webfx.platform.fetch.json.JsonFetch;
 import dev.webfx.platform.resource.Resource;

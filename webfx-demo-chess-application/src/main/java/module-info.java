@@ -3,12 +3,11 @@
 module webfx.demo.chess.application {
 
     // Direct dependencies modules
-    requires java.base;
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
     requires javafx.media;
-    requires webfx.extras.scalepane;
+    requires webfx.extras.panes;
     requires webfx.platform.ast;
     requires webfx.platform.console;
     requires webfx.platform.fetch.ast.json;

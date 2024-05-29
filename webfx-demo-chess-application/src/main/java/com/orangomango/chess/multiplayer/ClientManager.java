@@ -1,11 +1,7 @@
 package com.orangomango.chess.multiplayer;
 
-import java.io.*;
-import java.net.*;
 
 import javafx.scene.paint.Color;
-
-import com.orangomango.chess.Logger;
 
 public class ClientManager{
 	//private Socket socket;

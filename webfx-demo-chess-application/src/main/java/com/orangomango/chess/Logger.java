@@ -2,11 +2,8 @@ package com.orangomango.chess;
 
 import dev.webfx.platform.console.Console;
 
-import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.text.SimpleDateFormat;
 
 public class Logger{
 	//private static BufferedWriter writer;

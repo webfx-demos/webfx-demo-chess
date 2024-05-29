@@ -5,8 +5,8 @@ module webfx.demo.chess.application.gluon {
     // Direct dependencies modules
     requires javafx.media;
     requires webfx.demo.chess.application;
-    requires webfx.kit.openjfx;
-    requires webfx.platform.ast.json.java;
+    requires webfx.kit.javafxgraphics.openjfx;
+    requires webfx.platform.ast.factory.generic;
     requires webfx.platform.audio.gluon;
     requires webfx.platform.blob.java;
     requires webfx.platform.boot.java;

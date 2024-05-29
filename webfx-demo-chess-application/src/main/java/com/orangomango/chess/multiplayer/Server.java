@@ -1,10 +1,7 @@
 package com.orangomango.chess.multiplayer;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import com.orangomango.chess.Logger;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Server{
 	private String ip;
